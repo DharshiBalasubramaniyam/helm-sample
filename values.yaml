@@ -1,0 +1,10 @@
+sample:
+  label: sample-react-app
+  replicas: 3
+  containerPort: 80
+  image: 
+    repository: dharshib/ballerina-selenium-demo
+    tag: latest
+  service:
+    type: NodePort
+    port: 80

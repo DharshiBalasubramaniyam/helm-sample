@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ printf "%s-depl" .Values.sample.label }}  
+  labels:
+    app: {{ .Values.sample.label }}
+spec:
+  replicas: {{ .Values.sample.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.sample.label }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.sample.label }}
+    spec:
+      containers:
+        - name: {{ printf "%s-container" .Values.sample.label }}
+          image: {{ printf "%s:%s" .Values.sample.image.repository .Values.sample.image.tag }}
+          ports:
+            - containerPort: {{ .Values.sample.containerPort }}
