@@ -26,18 +26,24 @@
 
 ## **Helm Chart Lifecycle:**
 
-### Create a new chart - Creates the full chart directory structure.
+### Create a new chart 
+
+Creates the full chart directory structure.
 
 ```bash
 helm create mychart
 ```
 
-### Package your chart - Creates a .tgz package that can be uploaded to a chart repository.
+### Package your chart 
+
+Creates a .tgz package that can be uploaded to a chart repository.
 ```bash
 helm package mychart
 ```
 
-### Install the chart - Installs the chart into your Kubernetes cluster. Creates a Release called myrelease. Each release of a specific chart get a revision number (starts from 1, 2,...).
+### Install the chart 
+
+Installs the chart into your Kubernetes cluster. Creates a Release called myrelease. Each release of a specific chart get a revision number (starts from 1, 2,...).
 ```bash
 helm install myrelease ./mychart
 ```
@@ -47,17 +53,66 @@ helm install myrelease ./mychart
 helm list
 ```
 
-### Upgrade the chart - Apply changes after you modify your chart. The revision number is assigned to the next number after the previous release's revision number.
+### Upgrade the chart 
+
+Apply changes after you modify your chart. The revision number is assigned to the next number after the previous release's revision number.
 ```bash
 helm upgrade myrelease ./mychart
 ```
 
-### Rollback to a previous version - Roll back to revision 1 from revision 2 of the release.
+### Rollback to a previous version 
+
+Roll back to revision 1 from revision 2 of the release.
 ```bash
 helm rollback myrelease 1
 ```
 
-### Uninstall (delete) the release - Deletes the release but can keep history if you want.
+### Uninstall (delete) the release 
+
+Deletes the release but can keep history if you want.
 ```bash
 helm uninstall myrelease
 ```
+
+## Helm Values and Overrides
+
+Helm charts use a file called values.yaml to store default configuration values.
+
+We can provide different configs per environment (dev, staging, prod) just by changing values.
+
+**To override with a custom values file:**
+
+create separate files like `dev-values.yaml`,  `staging-values.yaml`,  `prod-values.yaml`.
+
+```bash
+helm install myrelease ./mychart -f custom-values.yaml
+```
+
+**To override with command-line:**
+
+```bash
+helm install myrelease ./mychart --set replicaCount=5 --set image.tag=v2.0
+```
+
+## Helm Dependencies
+
+Sometimes our app needs other apps or services to run properly — these are dependencies.
+
+In Helm, a dependency is another Helm chart your chart relies on.
+
+Example, Sprinboot app relies on Kafka and MySQL.
+
+**To declare dependencies, In chart’s `Chart.yaml`, add a dependencies section:**
+```yaml
+dependencies:
+  - name: mysql
+    version: 14.5.0
+    repository: https://charts.bitnami.com/bitnami
+```
+
+**To download all dependencies:**
+
+```bash
+helm dependency update
+```
+This fetches the required charts from their repositories and download all dependencies into the `charts/` folder.
