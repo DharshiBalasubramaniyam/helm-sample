@@ -6,5 +6,5 @@ sample:
     repository: dharshib/ballerina-selenium-demo
     tag: latest
   service:
-    type: NodePort
+    type: LoadBalancer
     port: 80
