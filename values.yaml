@@ -1,6 +1,6 @@
 sample:
   label: sample-react-app
-  replicas: 3
+  replicas: 1
   containerPort: 80
   image: 
     repository: dharshib/ballerina-selenium-demo
