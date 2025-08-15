@@ -8,5 +8,4 @@ spec:
   ports:
     - port: {{ .Values.sample.service.port }}
       targetPort: {{ .Values.sample.containerPort }}
-      nodePort: 30000
   type: {{ .Values.sample.service.type }}
